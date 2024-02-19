@@ -18,8 +18,6 @@ import static org.junit.Assert.assertTrue;
 
 public class SortingTest {
 
-    @Autowired
-    private SortingServiceImpl sorting;
     @Test
     public void sort1Completo() {
         JugadorModel p1 = new JugadorModel("Matias", 100);
@@ -36,7 +34,7 @@ public class SortingTest {
 
         Map<String, Object> resultado = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        resultado = sorting.ordenarPorPuntuacionYNombre(Jugadores);
+        resultado = SortingServiceImpl.ordenarPorPuntuacionYNombre(Jugadores);
         List<JugadorModel> JugadoresResult = objectMapper.convertValue(resultado.get("response"), new TypeReference<List<JugadorModel>>() {});
 
 
@@ -62,7 +60,7 @@ public class SortingTest {
 
         Jugadores = new ArrayList<JugadorModel>();
         Map<String, Object> resultado2 = new HashMap<>();
-        resultado2 = sorting.ordenarPorPuntuacionYNombre(Jugadores);
+        resultado2 = SortingServiceImpl.ordenarPorPuntuacionYNombre(Jugadores);
         JugadoresResult = objectMapper.convertValue(resultado2.get("response"), new TypeReference<List<JugadorModel>>() {});
         assertTrue(JugadoresResult.isEmpty());
 
@@ -70,7 +68,7 @@ public class SortingTest {
         Jugadores.add(p1);
 
         Map<String, Object> resultado3 = new HashMap<>();
-        resultado3 = sorting.ordenarPorPuntuacionYNombre(Jugadores);
+        resultado3 = SortingServiceImpl.ordenarPorPuntuacionYNombre(Jugadores);
         JugadoresResult = objectMapper.convertValue(resultado3.get("response"), new TypeReference<List<JugadorModel>>() {});
 
         assertEquals(1, JugadoresResult.size());
@@ -79,14 +77,13 @@ public class SortingTest {
 
     @Test
     public void sort1Vacio() {
-        List<JugadorModel> Jugadores = new ArrayList<JugadorModel>();
+       List<JugadorModel> jugadores = new ArrayList<>();
+       Map<String, Object> resultado = SortingServiceImpl.ordenarPorPuntuacionYNombre(jugadores);
+       ObjectMapper objectMapper = new ObjectMapper();
+       List<JugadorModel> jugadoresResult = objectMapper.convertValue(resultado.get("response"),
+               new TypeReference<List<JugadorModel>>() {});
 
-        Map<String, Object> resultado = new HashMap<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        resultado = sorting.ordenarPorPuntuacionYNombre(Jugadores);
-        List<JugadorModel> JugadoresResult = objectMapper.convertValue(resultado.get("response"), new TypeReference<List<JugadorModel>>() {});
-
-        assertTrue(JugadoresResult.isEmpty());
+       assertTrue(jugadoresResult.isEmpty());
     }
 
     @Test
@@ -97,7 +94,7 @@ public class SortingTest {
         
         Map<String, Object> resultado = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        resultado = sorting.ordenarPorPuntuacionYNombre(Jugadores);
+        resultado = SortingServiceImpl.ordenarPorPuntuacionYNombre(Jugadores);
         List<JugadorModel> JugadoresResult = objectMapper.convertValue(resultado.get("response"), new TypeReference<List<JugadorModel>>() {});
 
         assertEquals(1, JugadoresResult.size());
@@ -120,7 +117,7 @@ public class SortingTest {
         Jugadores.add(p5);
         Map<String, Object> resultado = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        resultado = sorting.ordenarPorPuntuacionPerdidasYNombre(Jugadores);
+        resultado = SortingServiceImpl.ordenarPorPuntuacionPerdidasYNombre(Jugadores);
         List<JugadorModel> JugadoresResult = objectMapper.convertValue(resultado.get("response"), new TypeReference<List<JugadorModel>>() {});
 
 
@@ -151,7 +148,7 @@ public class SortingTest {
         List<JugadorModel> Jugadores = new ArrayList<JugadorModel>();        
         Map<String, Object> resultado = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        resultado = sorting.ordenarPorPuntuacionPerdidasYNombre(Jugadores);
+        resultado = SortingServiceImpl.ordenarPorPuntuacionPerdidasYNombre(Jugadores);
         List<JugadorModel> JugadoresResult = objectMapper.convertValue(resultado.get("response"), new TypeReference<List<JugadorModel>>() {});
 
         assertTrue(JugadoresResult.isEmpty());
@@ -165,7 +162,7 @@ public class SortingTest {
         
         Map<String, Object> resultado = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        resultado = sorting.ordenarPorPuntuacionPerdidasYNombre(Jugadores);
+        resultado = SortingServiceImpl.ordenarPorPuntuacionPerdidasYNombre(Jugadores);
         List<JugadorModel> JugadoresResult = objectMapper.convertValue(resultado.get("response"), new TypeReference<List<JugadorModel>>() {});
 
         assertEquals(1, JugadoresResult.size());

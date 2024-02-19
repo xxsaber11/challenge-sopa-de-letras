@@ -28,7 +28,7 @@ public class SortingServiceImpl {
         return resultado;
     }
 
-    public Map<String, Object> ordenarPorPuntuacionPerdidasYNombre(List<JugadorModel> jugadores) {
+    public static Map<String, Object> ordenarPorPuntuacionPerdidasYNombre(List<JugadorModel> jugadores) {
         Map<String, Object> resultado = new HashMap<>();
         try {
             // Ordenar por puntuación de manera descendente, luego por pérdidas de manera ascendente
