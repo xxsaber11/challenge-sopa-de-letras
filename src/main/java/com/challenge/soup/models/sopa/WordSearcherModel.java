@@ -5,9 +5,8 @@ public class WordSearcherModel {
     private char[][] alphabetSoup;
     private Boolean presente;
 
-    public WordSearcherModel(char[][] alphabetSoup, Boolean presente) {
+    public WordSearcherModel(char[][] alphabetSoup) {
         this.alphabetSoup = alphabetSoup;
-        this.presente = presente;
     }
 
     public char[][] getAlphabetSoup() {
@@ -18,7 +17,8 @@ public class WordSearcherModel {
         this.alphabetSoup = alphabetSoup;
     }
 
-    public boolean isPresent() {
+    public boolean isPresent(String palabra) {
+        
         return presente;
     }
 
