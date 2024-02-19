@@ -2,63 +2,99 @@ package com.challenge.soup.servicesImpl;
 
 import com.challenge.soup.servicesImpl.services.WordSearcherService;
 
-import java.util.Arrays;
-import java.util.stream.IntStream;
-
 public class WordSearcherServiceImpl implements WordSearcherService {
 
+    private final char[][] alphabetSoup;
+
+    public WordSearcherServiceImpl(char[][] alphabetSoup) {
+        this.alphabetSoup = alphabetSoup;
+    }
+
     @Override
-    public boolean isPresent(final String word, char[][] alphabetSoup) {
-        String upperCaseWord = word.toUpperCase();
-    
-        // Búsqueda de palabras en las filas de la sopa de letras
-        boolean foundInRows = Arrays.stream(alphabetSoup)
-                .parallel()
-                .anyMatch(row -> isWordPresentInRow(upperCaseWord, row));
-    
-        if (foundInRows) {
-            return true;
-        }
-    
-        // Búsqueda de palabras en las columnas de la sopa de letras
-        boolean foundInColumns = IntStream.range(0, alphabetSoup[0].length)
-                .parallel() 
-                .anyMatch(col -> isWordPresentInColumn(upperCaseWord, alphabetSoup, col));
-    
-        return foundInColumns;
-    }
-
-    private boolean isWordPresentInRow(String word, char[] row) {
-        int wordLen = word.length();
-        int cols = row.length;
-        for (int i = 0; i <= cols - wordLen; i++) {
-            if (word.equals(new String(row, i, wordLen)) || word.equals(new String(reverseArray(row), i, wordLen))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isWordPresentInColumn(String word, char[][] alphabetSoup, int col) {
-        int wordLen = word.length();
+    public boolean isPresent(final String word) {
         int rows = alphabetSoup.length;
-        char[] column = new char[rows];
+        int cols = alphabetSoup[0].length;
+        int len = word.length();
+
+        // Búsqueda horizontal
         for (int i = 0; i < rows; i++) {
-            column[i] = alphabetSoup[i][col];
-        }
-        for (int i = 0; i <= rows - wordLen; i++) {
-            if (word.equals(new String(column, i, wordLen)) || word.equals(new String(reverseArray(column), i, wordLen))) {
-                return true;
+            for (int j = 0; j < cols - len + 1; j++) {
+                if (isPresentHorizontal(word, i, j) || isPresentHorizontalBackwards(word, i, j + len - 1)) {
+                    return true;
+                }
             }
         }
+
+        // Búsqueda vertical
+        for (int i = 0; i < rows - len + 1; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (isPresentVertical(word, i, j) || isPresentVerticalBackwards(word, i + len - 1, j)) {
+                    return true;
+                }
+            }
+        }
+
+        // Búsqueda parcial
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (isPresentPartial(word, i, j)) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
-    private char[] reverseArray(char[] array) {
-        char[] reversedArray = new char[array.length];
-        for (int i = 0; i < array.length; i++) {
-            reversedArray[i] = array[array.length - 1 - i];
+    private boolean isPresentHorizontal(String word, int row, int col) {
+        int len = word.length();
+        for (int i = 0; i < len; i++) {
+            if (alphabetSoup[row][col + i] != word.charAt(i))
+                return false;
         }
-        return reversedArray;
+        return true;
+    }
+
+    private boolean isPresentHorizontalBackwards(String word, int row, int col) {
+        int len = word.length();
+        for (int i = 0; i < len; i++) {
+            if (col - i < 0 || alphabetSoup[row][col - i] != word.charAt(i))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isPresentVertical(String word, int row, int col) {
+        int len = word.length();
+        for (int i = 0; i < len; i++) {
+            if (row + i >= alphabetSoup.length || alphabetSoup[row + i][col] != word.charAt(i))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isPresentVerticalBackwards(String word, int row, int col) {
+        int len = word.length();
+        for (int i = 0; i < len; i++) {
+            if (row - i < 0 || alphabetSoup[row - i][col] != word.charAt(i))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isPresentPartial(String word, int row, int col) {
+        int len = word.length();
+        for (int i = 0; i < len; i++) {
+            if (alphabetSoup[row][col] == word.charAt(i)) {
+                // Buscar el resto de la palabra en las cuatro direcciones
+                if (isPresentHorizontal(word.substring(i + 1), row, col + 1) ||
+                    isPresentHorizontalBackwards(word.substring(0, i), row, col - 1) ||
+                    isPresentVertical(word.substring(i + 1), row + 1, col) ||
+                    isPresentVerticalBackwards(word.substring(0, i), row - 1, col)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

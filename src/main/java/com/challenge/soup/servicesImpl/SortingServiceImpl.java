@@ -10,7 +10,7 @@ import com.challenge.soup.utils.enums.TipoErroresEnum;
 
 public class SortingServiceImpl {
 
-    public Map<String, Object>  ordenarPorPuntuacionYNombre(List<JugadorModel> jugadores) {
+    public static List<JugadorModel>  ordenarPorPuntuacionYNombre(List<JugadorModel> jugadores) {
         Map<String, Object> resultado = new HashMap<>();
         try {
             // Ordenar por puntuación de manera descendente
@@ -23,12 +23,13 @@ public class SortingServiceImpl {
         } catch (Exception e) {
             resultado.put("response", TipoErroresEnum.ERROR_ORDENAMIENTO.getMensaje());
             resultado.put("codError", TipoErroresEnum.ERROR_ORDENAMIENTO.getCodigo());
+            //return resultado;
         }
 
-        return resultado;
+        return jugadores;
     }
 
-    public static Map<String, Object> ordenarPorPuntuacionPerdidasYNombre(List<JugadorModel> jugadores) {
+    public static List<JugadorModel> ordenarPorPuntuacionPerdidasYNombre(List<JugadorModel> jugadores) {
         Map<String, Object> resultado = new HashMap<>();
         try {
             // Ordenar por puntuación de manera descendente, luego por pérdidas de manera ascendente
@@ -42,8 +43,9 @@ public class SortingServiceImpl {
         } catch (Exception e) {
             resultado.put("response", TipoErroresEnum.ERROR_ORDENAMIENTO.getMensaje());
             resultado.put("codError", TipoErroresEnum.ERROR_ORDENAMIENTO.getCodigo());
+            //return resultado;
         }
 
-        return resultado;
+        return jugadores;
     }
 }
