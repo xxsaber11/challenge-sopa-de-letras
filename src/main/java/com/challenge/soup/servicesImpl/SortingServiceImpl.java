@@ -28,8 +28,22 @@ public class SortingServiceImpl {
         return resultado;
     }
 
-    public void ordenarPorPuntuacionPerdidasYNombre(){
+    public Map<String, Object> ordenarPorPuntuacionPerdidasYNombre(List<JugadorModel> jugadores) {
+        Map<String, Object> resultado = new HashMap<>();
+        try {
+            // Ordenar por puntuación de manera descendente, luego por pérdidas de manera ascendente
+            jugadores.sort(Comparator.comparingInt(JugadorModel::getPuntuacion).reversed()
+                    .thenComparing(Comparator.comparingInt(JugadorModel::getPerdidas))
+                    // Finalmente, si las puntuaciones y pérdidas son iguales, ordenar por nombre de manera ascendente
+                    .thenComparing(Comparator.comparing(JugadorModel::getNombre)));
 
+            resultado.put("response", jugadores);
+            resultado.put("codError", 200);
+        } catch (Exception e) {
+            resultado.put("response", TipoErroresEnum.ERROR_ORDENAMIENTO.getMensaje());
+            resultado.put("codError", TipoErroresEnum.ERROR_ORDENAMIENTO.getCodigo());
+        }
 
+        return resultado;
     }
 }
