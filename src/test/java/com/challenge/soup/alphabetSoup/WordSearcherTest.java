@@ -3,6 +3,8 @@ package com.challenge.soup.alphabetSoup;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.challenge.soup.models.sopa.WordSearcherModel;
+
 import static org.junit.Assert.assertTrue;
 
 public class WordSearcherTest {
@@ -44,7 +46,7 @@ public class WordSearcherTest {
 
     @Before
     public void before() {
-        wordSearcher = new WordSearcher(alphabetSoup);
+        wordSearcher = new WordSearcherModel(alphabetSoup);
     }
 
     @Test
