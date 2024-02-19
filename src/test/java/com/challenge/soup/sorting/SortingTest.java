@@ -2,7 +2,7 @@ package com.challenge.soup.sorting;
 
 import org.junit.Test;
 
-import com.challenge.soup.models.JugadorModel;
+import com.challenge.soup.models.jugadores.JugadorModel;
 
 import java.util.ArrayList;
 import java.util.List;
