@@ -40,10 +40,10 @@ public class WordSearcherServiceImpl implements WordSearcherService {
 
         char letra = palabra.charAt(indice);
 
-        int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
-        int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
+        int[] dx = {-1, 0, 0, 1};
+        int[] dy = {0, -1, 1, 0};
 
-        for (int k = 0; k < 8; k++) {
+        for (int k = 0; k < 4; k++) {
             int nuevaFila = fila + dx[k];
             int nuevaColumna = columna + dy[k];
 
