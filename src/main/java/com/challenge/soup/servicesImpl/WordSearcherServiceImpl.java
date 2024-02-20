@@ -14,7 +14,6 @@ public class WordSearcherServiceImpl implements WordSearcherService {
     public boolean isPresent(final String palabra) {
         int filas = alphabetSoup.length;
         int columnas = alphabetSoup[0].length;
-        int longitud = palabra.length();
         char primero = palabra.charAt(0);
 
         boolean[][] usado = new boolean[filas][columnas];
