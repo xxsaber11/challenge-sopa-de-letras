@@ -62,7 +62,7 @@ public class WordSearcherTest {
 
     @Test
     public void testNoEstaZapatillas() {
-        assertFalse(!wordSearcherServiceImpl.isPresent("ZAPATILLAS"));
+        assertFalse(wordSearcherServiceImpl.isPresent("ZAPATILLAS"));
     }
 
     @Test
@@ -92,6 +92,6 @@ public class WordSearcherTest {
 
     @Test
     public void testNoEstaCuchillas() {
-        assertFalse(!wordSearcherServiceImpl.isPresent("CUCHILLAS"));
+        assertFalse(wordSearcherServiceImpl.isPresent("CUCHILLAS"));
     }
 }
